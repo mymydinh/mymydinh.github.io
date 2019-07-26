@@ -1,0 +1,14 @@
+// Layout
+@import "./layout/navbar";
+@import "./layout/masthead";
+@import "./layout/portfolio";
+@import "./layout/about";
+@import "./layout/contact";
+@import "./layout/footer";
+
+// Import variables (overrides Bootstrap defaults)
+@import "./base/variables";
+
+html {
+    scroll-behavior: smooth;
+  }

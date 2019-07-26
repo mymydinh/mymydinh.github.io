@@ -1,0 +1,11 @@
+#mainNav {
+    color: #6B7A8F;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    background-color: #DCC7AA !important;
+    a {
+        &:hover {
+            color: white;
+        }
+    }
+}

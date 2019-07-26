@@ -1,0 +1,111 @@
+#mainNav {
+  color: #6B7A8F;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  background-color: #DCC7AA !important;
+}
+
+#mainNav a:hover {
+  color: white;
+}
+
+.masthead {
+  background-color: #6B7A8F;
+  padding-top: 15rem;
+  padding-bottom: 15rem;
+}
+
+.masthead .masthead-heading {
+  font-size: 4.75rem;
+  line-height: 4.75rem;
+  color: #DCC7AA;
+}
+
+.masthead .masthead-subheading {
+  font-size: 2.25rem;
+  color: white;
+}
+
+.portfolio {
+  padding-top: 5rem;
+  padding-bottom: 10rem;
+  margin-bottom: -30px;
+}
+
+.portfolio .page-section-heading {
+  padding: 1.75rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 3.75rem;
+}
+
+.portfolio .portfolio-item {
+  cursor: pointer;
+  position: relative;
+  display: block;
+  max-width: 25rem;
+  margin-bottom: 30px;
+  overflow: hidden;
+}
+
+.portfolio .portfolio-item .portfolio-item-caption {
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  opacity: 0;
+  background-color: rgba(107, 122, 143, 0.9);
+}
+
+.portfolio .portfolio-item .portfolio-item-caption:hover {
+  opacity: 1;
+}
+
+.portfolio .portfolio-item .portfolio-item-caption .portfolio-item-caption-content {
+  font-size: 1.0rem;
+  padding: .5rem;
+}
+
+#about {
+  background-color: #DCC7AA;
+  padding-top: 5rem;
+  padding-bottom: 10rem;
+}
+
+#about .page-section-heading {
+  padding: 1.75rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 3.75rem;
+  color: #6B7A8F;
+}
+
+#about .lead {
+  text-align: center;
+  font-weight: bold;
+  font-family: 'Montserrat', sans-serif;
+}
+
+#about .info-link {
+  color: #6B7A8F;
+}
+
+#contact {
+  padding-top: 10rem;
+  padding-bottom: 10rem;
+}
+
+#contact .page-section-heading {
+  padding: 1.75rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 3.75rem;
+}
+
+.footer {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+/*# sourceMappingURL=style.css.map */
