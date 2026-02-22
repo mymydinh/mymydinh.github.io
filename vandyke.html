@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Van Dyke Coffee Roasters — Mymy Dinh</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Tenor+Sans&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --black: #1a1a1a;
+    --white: #ffffff;
+    --mid: #555555;
+    --light: #f5f5f5;
+    --border: rgba(0,0,0,0.08);
+    --accent: #5b4fcf;
+    --accent-2: #2a7d6f;
+    --navy: #1e1b4b;
+    --brown: #3d2a1a;
+    --warm: #c4a97d;
+    --lavender: #c4b5fd;
+    --mint: #a5f3d4;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: #fff; color: var(--black); font-family: 'DM Sans', sans-serif; font-weight: 300; overflow-x: hidden; cursor: none; }
+  .cursor { position: fixed; width: 10px; height: 10px; background: var(--black); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
+  .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid var(--black); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); opacity: .5; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 28px 56px; transition: background .3s; }
+  .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 300; letter-spacing: .18em; text-transform: uppercase; color: var(--white); text-decoration: none; }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a { font-family: 'Tenor Sans', sans-serif; font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: var(--white); text-decoration: none; position: relative; }
+  .nav-links a::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: currentColor; transition: width .4s; }
+  .nav-links a:hover::after { width: 100%; }
+  nav.scrolled { background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); }
+  nav.scrolled .nav-logo, nav.scrolled .nav-links a { color: var(--black); }
+
+  /* HERO — warm coffee tones */
+  .hero {
+    min-height: 90vh;
+    background: linear-gradient(135deg, #1a0f07 0%, #3d2010 40%, #2a1808 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 56px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg-text { position: absolute; top: 40%; right: -40px; font-family: 'Cormorant Garamond', serif; font-size: 22vw; font-weight: 300; color: rgba(255,255,255,0.04); line-height: 1; user-select: none; pointer-events: none; }
+  .hero-eyebrow { font-family: 'Tenor Sans', sans-serif; font-size: .65rem; letter-spacing: .3em; text-transform: uppercase; color: var(--warm); margin-bottom: 20px; opacity: 0; animation: fadeUp .8s ease .2s forwards; }
+  .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(3.5rem, 7vw, 7rem); font-weight: 300; color: #fff; line-height: 1; margin-bottom: 32px; opacity: 0; animation: fadeUp .9s ease .35s forwards; }
+  .hero-title em { font-style: italic; color: var(--warm); }
+  .hero-meta { display: flex; gap: 48px; opacity: 0; animation: fadeUp .9s ease .5s forwards; }
+  .meta-label { font-family: 'Tenor Sans', sans-serif; font-size: .55rem; letter-spacing: .25em; text-transform: uppercase; color: rgba(255,255,255,.45); margin-bottom: 6px; }
+  .meta-value { font-size: .9rem; color: rgba(255,255,255,.85); }
+
+  .content { max-width: 900px; margin: 0 auto; padding: 100px 56px; }
+  .section-block { margin-bottom: 80px; }
+  .block-label { font-family: 'Tenor Sans', sans-serif; font-size: .6rem; letter-spacing: .3em; text-transform: uppercase; color: var(--brown); margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+  .block-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .block-heading { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 300; line-height: 1.15; margin-bottom: 24px; }
+  .block-heading em { font-style: italic; color: #8b5e3c; }
+  .block-body { font-size: 1rem; line-height: 1.85; color: var(--mid); margin-bottom: 24px; }
+
+  /* PRINT SHOWCASE */
+  .print-section { background: var(--light); padding: 80px 56px; }
+  .print-inner { max-width: 900px; margin: 0 auto; }
+  .flyer-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 32px; }
+  .flyer-card {
+    aspect-ratio: 3/4;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .flyer-card::before { content: ''; position: absolute; inset: 0; background: inherit; opacity: .9; }
+  .flyer-content { position: relative; z-index: 2; }
+  .flyer-logo { font-family: 'Tenor Sans', sans-serif; font-size: .55rem; letter-spacing: .35em; text-transform: uppercase; margin-bottom: 16px; }
+  .flyer-title { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 300; line-height: 1; margin-bottom: 12px; }
+  .flyer-sub { font-size: .75rem; line-height: 1.6; margin-bottom: 20px; }
+  .flyer-detail { font-family: 'Tenor Sans', sans-serif; font-size: .55rem; letter-spacing: .2em; text-transform: uppercase; }
+  .flyer-badge { display: inline-block; padding: 8px 20px; border-radius: 20px; font-family: 'Tenor Sans', sans-serif; font-size: .55rem; letter-spacing: .2em; text-transform: uppercase; margin-top: 12px; }
+
+  /* STYLE A - dark blue */
+  .flyer-a { background: #1a2d4a; color: #fff; }
+  .flyer-a .flyer-badge { background: #c4a97d; color: #1a0f07; }
+
+  /* STYLE B - warm sand */
+  .flyer-b { background: #f0e8d8; color: #1a0f07; }
+  .flyer-b .flyer-badge { background: #3d2010; color: #fff; }
+
+  /* STYLE C - dark rich */
+  .flyer-c { background: #0f1a2a; color: #fff; }
+  .flyer-c .flyer-badge { background: rgba(255,255,255,.1); color: #fff; border: 1px solid rgba(255,255,255,.2); }
+
+  /* STYLE D - teal */
+  .flyer-d { background: #1a3530; color: #fff; }
+  .flyer-d .flyer-badge { background: #c4a97d; color: #1a0f07; }
+
+  /* CONTEXT BAND */
+  .context-band { background: #1a0f07; padding: 80px 56px; }
+  .context-inner { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .context-title { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; color: #fff; line-height: 1.1; margin-bottom: 20px; }
+  .context-title em { font-style: italic; color: var(--warm); }
+  .context-body { font-size: .9rem; line-height: 1.85; color: rgba(255,255,255,.5); }
+  .context-details { display: flex; flex-direction: column; gap: 24px; }
+  .context-detail-item { padding: 24px; border: 1px solid rgba(255,255,255,.1); }
+  .context-detail-label { font-family: 'Tenor Sans', sans-serif; font-size: .55rem; letter-spacing: .2em; text-transform: uppercase; color: var(--warm); margin-bottom: 8px; }
+  .context-detail-val { font-size: .88rem; color: rgba(255,255,255,.7); line-height: 1.6; }
+
+  .deliverables { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+  .deliverable-tag { padding: 8px 18px; border: 1px solid var(--border); font-family: 'Tenor Sans', sans-serif; font-size: .6rem; letter-spacing: .18em; text-transform: uppercase; color: var(--mid); border-radius: 2px; }
+
+  /* BACK TO INDEX */
+  .back-section { background: var(--navy); padding: 100px 56px; text-align: center; }
+  .back-label { font-family: 'Tenor Sans', sans-serif; font-size: .6rem; letter-spacing: .3em; text-transform: uppercase; color: var(--lavender); margin-bottom: 24px; }
+  .back-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 4vw, 4rem); font-weight: 300; color: #fff; margin-bottom: 40px; }
+  .back-title em { font-style: italic; color: var(--mint); }
+  .back-btn { display: inline-block; padding: 16px 48px; border: 1px solid rgba(255,255,255,.25); font-family: 'Tenor Sans', sans-serif; font-size: .65rem; letter-spacing: .2em; text-transform: uppercase; color: #fff; text-decoration: none; transition: background .3s, border-color .3s; }
+  .back-btn:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.4); }
+
+  footer { background: var(--navy); border-top: 1px solid rgba(255,255,255,.08); padding: 28px 56px; display: flex; justify-content: space-between; align-items: center; }
+  .footer-left { font-family: 'Tenor Sans', sans-serif; font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.25); }
+  .footer-right { font-family: 'Cormorant Garamond', serif; font-size: .85rem; color: rgba(255,255,255,.25); font-style: italic; }
+
+  @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: .1s; }
+  .reveal-delay-2 { transition-delay: .2s; }
+
+  @media (max-width: 768px) {
+    nav { padding: 20px 24px; }
+    .hero, .content, .print-section, .context-band, .back-section { padding-left: 24px; padding-right: 24px; }
+    .hero { padding-bottom: 60px; }
+    .flyer-grid { grid-template-columns: 1fr; }
+    .context-inner { grid-template-columns: 1fr; gap: 40px; }
+    .hero-meta { flex-wrap: wrap; gap: 24px; }
+    footer { padding: 24px; flex-direction: column; gap: 10px; text-align: center; }
+    body { cursor: auto; }
+    .cursor, .cursor-ring { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav id="nav">
+  <a href="index.html" class="nav-logo">Mymy Dinh</a>
+  <ul class="nav-links">
+    <li><a href="index.html#work">All Work</a></li>
+    <li><a href="index.html">← Portfolio</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg-text">VDC</div>
+  <p class="hero-eyebrow">// Print Design · Brand Collateral · Advertising</p>
+  <h1 class="hero-title">Van Dyke<br><em>Coffee Roasters</em></h1>
+  <div class="hero-meta">
+    <div class="hero-meta-item">
+      <div class="meta-label">Client</div>
+      <div class="meta-value">Van Dyke Coffee Roasters</div>
+    </div>
+    <div class="hero-meta-item">
+      <div class="meta-label">Role</div>
+      <div class="meta-value">Graphic Designer</div>
+    </div>
+    <div class="hero-meta-item">
+      <div class="meta-label">Location</div>
+      <div class="meta-value">The Atrium, Irvine CA</div>
+    </div>
+    <div class="hero-meta-item">
+      <div class="meta-label">Type</div>
+      <div class="meta-value">Print Advertising</div>
+    </div>
+  </div>
+</section>
+
+<div class="content">
+  <div class="section-block reveal">
+    <div class="block-label">Overview</div>
+    <h2 class="block-heading">Launching a new coffee shop<br>with <em>print that gets noticed</em></h2>
+    <p class="block-body">Van Dyke Coffee Roasters was opening a new location inside The Atrium in Irvine, CA — a premium commercial complex at 19100 Tower. They needed print advertising that would drive awareness both inside the building and throughout the surrounding neighborhood, including local apartment complexes.</p>
+    <p class="block-body">The challenge was creating multiple flyer variations that worked across very different contexts — lobby displays, bulletin boards, and direct mailboxes — while maintaining a cohesive brand aesthetic that felt premium and inviting.</p>
+  </div>
+</div>
+
+<!-- PRINT SHOWCASE -->
+<div class="print-section">
+  <div class="print-inner">
+    <div class="block-label reveal">Print Designs</div>
+    <p class="block-body reveal" style="max-width:560px;">Four distinct flyer variations created for different placements — each with its own color story while staying true to the Van Dyke brand identity.</p>
+    <div class="flyer-grid reveal">
+      <div class="flyer-card flyer-a">
+        <div class="flyer-content">
+          <div class="flyer-logo">Van Dyke Coffee Roasters</div>
+          <div class="flyer-title">Van<br>Dyke<br>Coffee</div>
+          <div class="flyer-detail">Located in the Lobby<br>of 19100 Tower</div>
+          <div class="flyer-detail" style="margin-top:8px; opacity:.6;">Monday – Friday · 8:00 AM – 5:00 PM</div>
+          <div class="flyer-badge">Now Open</div>
+        </div>
+      </div>
+      <div class="flyer-card flyer-b">
+        <div class="flyer-content">
+          <div class="flyer-logo" style="color:#3d2010;">Van Dyke Coffee Roasters</div>
+          <div class="flyer-title" style="color:#1a0f07;">Van<br>Dyke<br>Coffee</div>
+          <div class="flyer-detail" style="color:#555;">Monday – Friday<br>8:00 AM – 5:00 PM</div>
+          <div class="flyer-badge" style="background:#3d2010; color:#fff; margin-top:14px;">Located in the Lobby</div>
+        </div>
+      </div>
+      <div class="flyer-card flyer-c">
+        <div class="flyer-content">
+          <div class="flyer-logo" style="color:rgba(255,255,255,.5);">Van Dyke Coffee</div>
+          <div class="flyer-title" style="font-size:2.8rem;">Now<br>Open</div>
+          <div class="flyer-detail" style="opacity:.6;">Located in the Lobby<br>of 19100 Tower</div>
+          <div class="flyer-badge">See Office for Details</div>
+        </div>
+      </div>
+      <div class="flyer-card flyer-d">
+        <div class="flyer-content">
+          <div class="flyer-logo">Van Dyke Coffee Roasters</div>
+          <div class="flyer-title" style="font-size:2.8rem;">19100<br>Tower<br>Lobby</div>
+          <div class="flyer-badge">Mon – Fri, 8AM – 5PM</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTEXT -->
+<div class="context-band">
+  <div class="context-inner">
+    <div class="reveal">
+      <div class="context-title">Designed for<br><em>two audiences</em></div>
+      <p class="context-body">The campaign required thinking about two very different touchpoints — building tenants who would see lobby displays, and apartment residents nearby who would receive flyers in their mailboxes. Each called for a slightly different approach in tone and visual hierarchy.</p>
+    </div>
+    <div class="context-details reveal">
+      <div class="context-detail-item">
+        <div class="context-detail-label">In-Building Displays</div>
+        <div class="context-detail-val">Premium lobby placements inside The Atrium — designed to feel at home in a high-end commercial environment and encourage tenant foot traffic.</div>
+      </div>
+      <div class="context-detail-item">
+        <div class="context-detail-label">Residential Distribution</div>
+        <div class="context-detail-val">Promotional flyers distributed to local apartment complexes across the street — warmer, more approachable in tone to convert neighborhood residents into regulars.</div>
+      </div>
+      <div class="context-detail-item">
+        <div class="context-detail-label">Companion Collateral</div>
+        <div class="context-detail-val">Also designed Prostyle Lounge promotional materials as part of the same campaign suite — maintaining visual consistency across the building's tenant brands.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+  <div class="section-block reveal">
+    <div class="block-label">Deliverables</div>
+    <h2 class="block-heading">What we <em>delivered</em></h2>
+    <div class="deliverables">
+      <span class="deliverable-tag">4 Flyer Variations</span>
+      <span class="deliverable-tag">Lobby Display Format</span>
+      <span class="deliverable-tag">Residential Mailer Format</span>
+      <span class="deliverable-tag">Brand Collateral</span>
+      <span class="deliverable-tag">Print-Ready Files</span>
+      <span class="deliverable-tag">Companion Signage</span>
+    </div>
+  </div>
+</div>
+
+<!-- BACK TO PORTFOLIO -->
+<div class="back-section">
+  <div class="back-label reveal">// All Projects</div>
+  <div class="back-title reveal">Back to<br><em>Portfolio</em></div>
+  <a href="index.html#work" class="back-btn reveal">View All Work</a>
+</div>
+
+<footer>
+  <div class="footer-left">© 2025 Mymy Dinh</div>
+  <div class="footer-right">Irvine, California</div>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; cursor.style.left=mx+'px'; cursor.style.top=my+'px'; });
+  (function loop(){ rx+=(mx-rx)*.12; ry+=(my-ry)*.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(loop); })();
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 80));
+  const obs = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), {threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

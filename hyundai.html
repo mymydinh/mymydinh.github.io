@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hyundai Capital Dealer Portal — Mymy Dinh</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Tenor+Sans&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --black: #1a1a1a;
+    --white: #ffffff;
+    --mid: #555555;
+    --light: #f5f5f5;
+    --border: rgba(0,0,0,0.08);
+    --accent: #5b4fcf;
+    --accent-2: #2a7d6f;
+    --navy: #1e1b4b;
+    --lavender: #c4b5fd;
+    --mint: #a5f3d4;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: #fff;
+    color: var(--black);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+  .cursor { position: fixed; width: 10px; height: 10px; background: var(--black); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: width .3s, height .3s; }
+  .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid var(--black); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: transform .15s ease, width .3s, height .3s; opacity: .5; }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 28px 56px; transition: background .3s; }
+  .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 300; letter-spacing: .18em; text-transform: uppercase; color: var(--white); text-decoration: none; }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a { font-family: 'Tenor Sans', sans-serif; font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: var(--white); text-decoration: none; position: relative; }
+  .nav-links a::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: var(--white); transition: width .4s; }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-links a.back { display: flex; align-items: center; gap: 8px; }
+  .nav-links a.back::before { content: '←'; font-family: 'DM Sans', sans-serif; }
+  nav.scrolled .nav-logo, nav.scrolled .nav-links a { color: var(--black); }
+  nav.scrolled .nav-links a::after { background: var(--black); }
+  nav.scrolled { background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); }
+
+  /* HERO */
+  .hero {
+    min-height: 90vh;
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1e3a5f 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 56px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg-text {
+    position: absolute;
+    top: 40%;
+    right: -40px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22vw;
+    font-weight: 300;
+    color: rgba(255,255,255,0.04);
+    line-height: 1;
+    user-select: none;
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: .65rem;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--mint);
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp .8s ease .2s forwards;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 7vw, 7rem);
+    font-weight: 300;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp .9s ease .35s forwards;
+  }
+  .hero-title em { font-style: italic; color: var(--lavender); }
+  .hero-meta {
+    display: flex;
+    gap: 48px;
+    opacity: 0;
+    animation: fadeUp .9s ease .5s forwards;
+  }
+  .hero-meta-item {}
+  .meta-label { font-family: 'Tenor Sans', sans-serif; font-size: .55rem; letter-spacing: .25em; text-transform: uppercase; color: rgba(255,255,255,.45); margin-bottom: 6px; }
+  .meta-value { font-size: .9rem; color: rgba(255,255,255,.85); }
+
+  /* CONTENT */
+  .content { max-width: 900px; margin: 0 auto; padding: 100px 56px; }
+  .section-block { margin-bottom: 80px; }
+  .block-label {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: .6rem;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .block-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .block-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 300;
+    line-height: 1.15;
+    margin-bottom: 24px;
+  }
+  .block-heading em { font-style: italic; color: var(--accent); }
+  .block-body {
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--mid);
+    margin-bottom: 24px;
+  }
+
+  /* VISUAL DIVIDER */
+  .visual-block {
+    background: var(--navy);
+    padding: 80px 56px;
+    margin: 0;
+  }
+  .visual-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .visual-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 36px 28px;
+    border-radius: 4px;
+  }
+  .visual-card-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: .7rem;
+    color: var(--lavender);
+    letter-spacing: .2em;
+    margin-bottom: 14px;
+  }
+  .visual-card-title {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: .68rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 12px;
+  }
+  .visual-card-body {
+    font-size: .83rem;
+    line-height: 1.75;
+    color: rgba(255,255,255,.5);
+  }
+
+  /* DELIVERABLES */
+  .deliverables { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+  .deliverable-tag {
+    padding: 8px 18px;
+    border: 1px solid var(--border);
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: .6rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--mid);
+    border-radius: 2px;
+  }
+
+  /* MOCKUP SHOWCASE */
+  .mockup-section {
+    background: var(--light);
+    padding: 80px 56px;
+  }
+  .mockup-inner { max-width: 900px; margin: 0 auto; }
+  .mockup-browser-large {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.12);
+    overflow: hidden;
+  }
+  .mockup-bar-large {
+    background: #e8e6f0;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .mbdot { width: 12px; height: 12px; border-radius: 50%; }
+  .mockup-body-large {
+    padding: 40px;
+    min-height: 340px;
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 40px;
+  }
+  .mock-sidebar {
+    border-right: 1px solid var(--border);
+    padding-right: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .mock-nav-item {
+    padding: 10px 14px;
+    border-radius: 4px;
+    font-size: .8rem;
+    color: var(--mid);
+    background: var(--light);
+  }
+  .mock-nav-item.active { background: var(--navy); color: #fff; }
+  .mock-main { display: flex; flex-direction: column; gap: 16px; }
+  .mock-h { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300; color: var(--black); }
+  .mock-line { height: 8px; background: var(--light); border-radius: 4px; }
+  .mock-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 8px; }
+  .mock-card { background: var(--light); border-radius: 6px; padding: 16px; }
+  .mock-card-label { font-size: .65rem; color: var(--mid); margin-bottom: 6px; }
+  .mock-card-val { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--accent); }
+
+  /* NEXT PROJECT */
+  .next-project {
+    background: var(--navy);
+    padding: 100px 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .next-label { font-family: 'Tenor Sans', sans-serif; font-size: .6rem; letter-spacing: .3em; text-transform: uppercase; color: var(--lavender); margin-bottom: 16px; }
+  .next-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 4vw, 4rem); font-weight: 300; color: #fff; line-height: 1; }
+  .next-title em { font-style: italic; color: var(--mint); }
+  .next-arrow {
+    width: 64px; height: 64px;
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.5rem;
+    text-decoration: none;
+    transition: background .3s, border-color .3s;
+    flex-shrink: 0;
+  }
+  .next-arrow:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.4); }
+  .next-link { text-decoration: none; display: flex; align-items: center; gap: 28px; }
+
+  /* FOOTER */
+  footer { background: var(--navy); border-top: 1px solid rgba(255,255,255,.08); padding: 28px 56px; display: flex; justify-content: space-between; align-items: center; }
+  .footer-left { font-family: 'Tenor Sans', sans-serif; font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.25); }
+  .footer-right { font-family: 'Cormorant Garamond', serif; font-size: .85rem; color: rgba(255,255,255,.25); font-style: italic; }
+
+  @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: .1s; }
+  .reveal-delay-2 { transition-delay: .2s; }
+
+  @media (max-width: 768px) {
+    nav { padding: 20px 24px; }
+    .hero { padding: 0 24px 60px; }
+    .content { padding: 60px 24px; }
+    .visual-block, .mockup-section { padding: 60px 24px; }
+    .visual-grid { grid-template-columns: 1fr; }
+    .mockup-body-large { grid-template-columns: 1fr; }
+    .mock-sidebar { border-right: none; border-bottom: 1px solid var(--border); padding-right: 0; padding-bottom: 20px; }
+    .hero-meta { flex-wrap: wrap; gap: 24px; }
+    .next-project { padding: 60px 24px; flex-direction: column; gap: 32px; align-items: flex-start; }
+    footer { padding: 24px; flex-direction: column; gap: 10px; text-align: center; }
+    body { cursor: auto; }
+    .cursor, .cursor-ring { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav id="nav">
+  <a href="index.html" class="nav-logo">Mymy Dinh</a>
+  <ul class="nav-links">
+    <li><a href="index.html#work">All Work</a></li>
+    <li><a href="index.html" class="back">Back to Portfolio</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-text">HCA</div>
+  <p class="hero-eyebrow">// UX · UI · CMS · Digital Marketing</p>
+  <h1 class="hero-title">Hyundai Capital<br><em>Dealer Portal</em></h1>
+  <div class="hero-meta">
+    <div class="hero-meta-item">
+      <div class="meta-label">Client</div>
+      <div class="meta-value">Hyundai Capital America</div>
+    </div>
+    <div class="hero-meta-item">
+      <div class="meta-label">Role</div>
+      <div class="meta-value">Digital Marketing Associate</div>
+    </div>
+    <div class="hero-meta-item">
+      <div class="meta-label">Timeline</div>
+      <div class="meta-value">Sept 2023 – Present</div>
+    </div>
+    <div class="hero-meta-item">
+      <div class="meta-label">Type</div>
+      <div class="meta-value">Enterprise / In-House</div>
+    </div>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<div class="content">
+  <div class="section-block reveal">
+    <div class="block-label">Overview</div>
+    <h2 class="block-heading">Building the dealer<br>experience <em>end-to-end</em></h2>
+    <p class="block-body">At Hyundai Capital America, I own content and asset deployment for the dealer portal — an enterprise platform used by dealerships across the country to access financing tools, program resources, and marketing materials. My work spans the full spectrum: from writing project briefs and gathering requirements to supporting UX/UI implementation for high-visibility features.</p>
+    <p class="block-body">I collaborate cross-functionally with product, engineering, and design teams on Agile Sprint releases — including large-scale enterprise projects that touch thousands of dealer users.</p>
+  </div>
+</div>
+
+<!-- ROLE HIGHLIGHTS -->
+<div class="visual-block">
+  <div class="visual-grid">
+    <div class="visual-card reveal">
+      <div class="visual-card-num">01</div>
+      <div class="visual-card-title">Content & CMS</div>
+      <div class="visual-card-body">Own all content and asset deployment within the dealer portal, managing the CMS to support platform enhancements and feature launches.</div>
+    </div>
+    <div class="visual-card reveal reveal-delay-1">
+      <div class="visual-card-num">02</div>
+      <div class="visual-card-title">UX / UI Support</div>
+      <div class="visual-card-body">Support UX/UI implementation for high-visibility features — contributing to design decisions, feedback cycles, and broader design efforts across the platform.</div>
+    </div>
+    <div class="visual-card reveal reveal-delay-2">
+      <div class="visual-card-num">03</div>
+      <div class="visual-card-title">Loyalty Programs</div>
+      <div class="visual-card-body">Launched loyalty lead programs as part of a broader retention strategy, contributing to a 39.2% retention rate KPI — recognized company-wide for initiative and leadership.</div>
+    </div>
+  </div>
+</div>
+
+<!-- PROCESS -->
+<div class="content">
+  <div class="section-block reveal">
+    <div class="block-label">Process</div>
+    <h2 class="block-heading">From brief to <em>release</em></h2>
+    <p class="block-body">Every feature I touch starts with a project brief. I gather requirements from stakeholders, align on business goals, and translate those into clear documentation that guides development and design teams through the sprint process.</p>
+    <p class="block-body">Working in Jira, I track each sprint's progress, flag dependencies, and help coordinate cross-functional handoffs — making sure content, design, and engineering are all moving in sync toward release.</p>
+    <div class="deliverables">
+      <span class="deliverable-tag">Project Briefs</span>
+      <span class="deliverable-tag">Requirements Gathering</span>
+      <span class="deliverable-tag">CMS Deployment</span>
+      <span class="deliverable-tag">Agile / Jira</span>
+      <span class="deliverable-tag">UX / UI Support</span>
+      <span class="deliverable-tag">Stakeholder Communication</span>
+      <span class="deliverable-tag">Cross-functional Collaboration</span>
+      <span class="deliverable-tag">Loyalty Programs</span>
+    </div>
+  </div>
+</div>
+
+<!-- PORTAL MOCKUP -->
+<div class="mockup-section">
+  <div class="mockup-inner">
+    <div class="block-label reveal" style="margin-bottom:32px;">Portal Interface</div>
+    <div class="mockup-browser-large reveal">
+      <div class="mockup-bar-large">
+        <div class="mbdot" style="background:#ff5f57"></div>
+        <div class="mbdot" style="background:#febc2e"></div>
+        <div class="mbdot" style="background:#28c840"></div>
+        <div style="margin-left:12px; background:#f0eefa; border-radius:4px; padding:4px 16px; font-size:.7rem; color:#888; flex:1; max-width:300px;">dealer.hyundaicapital.com</div>
+      </div>
+      <div class="mockup-body-large">
+        <div class="mock-sidebar">
+          <div class="mock-nav-item active">Dashboard</div>
+          <div class="mock-nav-item">Programs</div>
+          <div class="mock-nav-item">Resources</div>
+          <div class="mock-nav-item">Loyalty Tools</div>
+          <div class="mock-nav-item">Reports</div>
+          <div class="mock-nav-item">Support</div>
+        </div>
+        <div class="mock-main">
+          <div class="mock-h">Dealer Portal</div>
+          <div class="mock-line" style="width:60%"></div>
+          <div class="mock-line" style="width:40%"></div>
+          <div class="mock-cards">
+            <div class="mock-card">
+              <div class="mock-card-label">Retention Rate</div>
+              <div class="mock-card-val">39.2%</div>
+            </div>
+            <div class="mock-card">
+              <div class="mock-card-label">Active Dealers</div>
+              <div class="mock-card-val">1,200+</div>
+            </div>
+            <div class="mock-card">
+              <div class="mock-card-label">Sprints Shipped</div>
+              <div class="mock-card-val">24+</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+  <div class="section-block reveal">
+    <div class="block-label">Recognition</div>
+    <h2 class="block-heading">Going beyond <em>the role</em></h2>
+    <p class="block-body">Beyond my core responsibilities, I stepped up as Dealer Portal lead during PTO coverage — ensuring continuity across sprint releases and stakeholder communications. I also led successful company-wide team-building events, and was recognized across the organization for initiative and leadership.</p>
+    <p class="block-body">This role has sharpened my ability to operate in a large enterprise environment: balancing multiple priorities, communicating across levels, and delivering work that has real, measurable business impact.</p>
+  </div>
+</div>
+
+<!-- NEXT PROJECT -->
+<div class="next-project">
+  <div>
+    <div class="next-label">Next Project</div>
+    <div class="next-title">Salisbury<br><em>Plastic Surgery</em></div>
+  </div>
+  <a href="salisbury.html" class="next-link">
+    <span style="font-family:'Tenor Sans',sans-serif; font-size:.65rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.5);">View Project</span>
+    <div class="next-arrow">→</div>
+  </a>
+</div>
+
+<footer>
+  <div class="footer-left">© 2025 Mymy Dinh</div>
+  <div class="footer-right">Irvine, California</div>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; cursor.style.left=mx+'px'; cursor.style.top=my+'px'; });
+  (function animateRing(){ rx+=(mx-rx)*.12; ry+=(my-ry)*.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(animateRing); })();
+
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 80); });
+
+  const reveals = document.querySelectorAll('.reveal');
+  new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), { threshold: .1 }).observe ? document.querySelectorAll('.reveal').forEach(el => new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), {threshold:.1}).observe(el)) : null;
+  const obs = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), {threshold:.1});
+  reveals.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
